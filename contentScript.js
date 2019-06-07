@@ -3,24 +3,29 @@
  */
 const usernameSelector = '.txtUserName';
 const questionSelector = '.C-questionFeedItem';
-const mutedUsername = 'FBI';
+const key = 'mutedUsernames';
 
 main();
 
 /**
  * メイン関数
  */
-function main() {
+async function main() {
 
   // 質問リストを取得
-  // 該当するユーザ名のものをリストから削除
+  // ストレージからミュートユーザリストを取得
+  // 該当するユーザ名の質問をリストから削除
   const questionEls = document.querySelectorAll(questionSelector);
-
   if (questionEls.length < 1) {
     return;
   }
 
-  var questionElsToMute = [];
+  let mutedUsernames = await load(key);
+  if (!mutedUsernames) {
+    return;
+  }
+
+  let questionElsToMute = [];
   for (let q of questionEls) {
     let usernameContainer = q.querySelector(usernameSelector);
     if (!usernameContainer) {
@@ -28,12 +33,46 @@ function main() {
     }
 
     let username = usernameContainer.innerText;
-    if (username.includes(mutedUsername)) {
+    if (mutedUsernames.includes(username)) {
       questionElsToMute.push(q);
     }
   }
 
   questionElsToMute.forEach(remove);
+}
+
+/**
+ * ヘルパー: ストレージからデータを取得する
+ */
+function load(key) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(key, (items) => {
+      let error = chrome.runtime.lastError;
+      if (error) {
+        reject(error);
+      } else {
+        resolve(items[key]);
+      }
+    });
+  });
+}
+
+/**
+ * ヘルパー: ストレージにデータを保存する
+ */
+function save(key, value) {
+  return new Promise((resolve, reject) => {
+    let items = {};
+    items[key] = value;
+    chrome.storage.local.set(items, () => {
+      let error = chrome.runtime.lastError;
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
 }
 
 /**
