@@ -1,0 +1,13 @@
+{
+  "name": "teratail plus",
+  "version": "0.1",
+  "description": "",
+  "manifest_version": 2,
+  "content_scripts": [
+   {
+     "matches": ["https://teratail.com/*"],
+     "css": [],
+     "js": ["contentScript.js"]
+   }
+ ]
+}
