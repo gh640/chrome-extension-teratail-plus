@@ -7,10 +7,10 @@
     "storage"
   ],
   "content_scripts": [
-   {
-     "matches": ["https://teratail.com/*"],
-     "css": [],
-     "js": ["contentScript.js"]
-   }
- ]
+    {
+      "matches": ["https://teratail.com/*"],
+      "css": [],
+      "js": ["contentScript.js"]
+    }
+  ]
 }
