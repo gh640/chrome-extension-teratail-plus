@@ -84,10 +84,7 @@ function addMuteSwitch() {
    * トグルスイッチの状態を更新
    */
   async function toggleMuteState(event) {
-    let mutedUsernames = await load(KEY);
-    if (!mutedUsernames) {
-      mutedUsernames = [];
-    }
+    let mutedUsernames = await loadMutedUsernames();
     if (await isMuted()) {
       drop(mutedUsernames, username);
     } else {
@@ -102,8 +99,8 @@ function addMuteSwitch() {
    * 対象ユーザがミュート状態になっているかどうかをチェック
    */
   async function isMuted() {
-    let mutedUsernames = await load(KEY);
-    return mutedUsernames && mutedUsernames.includes(username);
+    let mutedUsernames = await loadMutedUsernames();
+    return mutedUsernames.includes(username);
   }
 }
 
@@ -151,10 +148,7 @@ async function applyFilter() {
     return;
   }
 
-  let mutedUsernames = await load(KEY);
-  if (!mutedUsernames) {
-    return;
-  }
+  let mutedUsernames = await loadMutedUsernames();
 
   let questionElsToMute = [];
   for (let q of questionEls) {
@@ -175,6 +169,14 @@ async function applyFilter() {
   }
 
   questionElsToMute.forEach(removeFromPage);
+}
+
+/**
+ * ヘルパー: ストレージからミュート対象ユーザ一覧を取得する
+ */
+async function loadMutedUsernames() {
+  let usernames = await load(KEY);
+  return usernames ? usernames : [];
 }
 
 /**
