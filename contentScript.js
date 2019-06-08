@@ -1,9 +1,6 @@
 /**
  * 共用の定数
  */
-const LIST_SELECTOR = '.j-feedContentsWrapper';
-const QUESTION_SELECTOR = '.C-questionFeedItem';
-const USERNAME_SELECTOR = '.txtUserName';
 const KEY = 'mutedUsernames';
 
 main();
@@ -11,7 +8,7 @@ main();
 /**
  * メイン関数
  */
-async function main() {
+function main() {
 
   // ページ読み込み時のちらつきを抑えるためあえて "run_at": "document_start" を選んで
   // DOMContentLoaded を使用しています
@@ -22,14 +19,96 @@ async function main() {
  * 初期化処理を実行
  */
 function init() {
+  initUserPage();
+  initQuestionListPage();
+}
+
+/**
+ * 質問リストページの初期化処理を行う
+ */
+function initQuestionListPage() {
   addObserver();
   applyFilter();
+}
+
+/**
+ * プロフィールページの初期化処理を行う
+ */
+function initUserPage() {
+  const USER_PAGE_ID = 'pageID_mypage';
+  if (document.body.id !== USER_PAGE_ID) {
+    return;
+  }
+
+  addMuteSwitch();
+}
+
+/**
+ * ミュートのトグルスイッチをユーザプロフィールページに追加
+ */
+function addMuteSwitch() {
+  const USER_SUMMARY_ID = 'l-User__summary';
+  const USERNAME_SELECTOR = '.ttlMain';
+
+  let summaryEl = document.getElementById(USER_SUMMARY_ID);
+  if (!summaryEl) {
+    return;
+  }
+
+  let username = summaryEl.querySelector(USERNAME_SELECTOR).innerText.trim();
+
+  let link = document.createElement('a');
+  link.classList.add('mute-button');
+  link.addEventListener('click', toggleMuteState);
+  refreshMuteButton();
+
+  let container = document.createElement('div')
+  container.appendChild(link);
+
+  summaryEl.appendChild(container);
+
+  /**
+   * 最新のミュート状態をトグルスイッチの見栄えに反映
+   */
+  async function refreshMuteButton() {
+    if (await isMuted()) {
+      link.classList.add('muted');
+      link.innerText = 'unmute';
+    } else {
+      link.classList.remove('muted');
+      link.innerText = 'mute';
+    }
+  }
+
+  /**
+   * トグルスイッチの状態を更新
+   */
+  async function toggleMuteState(event) {
+    let mutedUsernames = await load(KEY);
+    if (await isMuted()) {
+      drop(mutedUsernames, username);
+    } else {
+      mutedUsernames.unshift(username);
+    }
+    await save(KEY, mutedUsernames);
+
+    refreshMuteButton();
+  }
+
+  /**
+   * 対象ユーザがミュート状態になっているかどうかをチェック
+   */
+  async function isMuted() {
+    let mutedUsernames = await load(KEY);
+    return mutedUsernames && mutedUsernames.includes(username);
+  }
 }
 
 /**
  * 質問リストが切り替わったら絞り込みを適用する MutationObserver を追加
  */
 function addObserver() {
+  const LIST_SELECTOR = '.j-feedContentsWrapper';
 
   // DOM の変更を追いたいので MutationObserver を使う
   let options = { attributes: false, childList: true, subtree: false };
@@ -58,6 +137,8 @@ function addObserver() {
  * 質問リストに絞り込みを適用
  */
 async function applyFilter() {
+  const QUESTION_SELECTOR = '.C-questionFeedItem';
+  const USERNAME_SELECTOR = '.txtUserName';
 
   // 質問リストを取得
   // ストレージからミュートユーザリストを取得
@@ -90,7 +171,7 @@ async function applyFilter() {
     }
   }
 
-  questionElsToMute.forEach(remove);
+  questionElsToMute.forEach(removeFromPage);
 }
 
 /**
@@ -130,6 +211,18 @@ function save(key, value) {
 /**
  * ヘルパー: 要素をページから削除
  */
-function remove(el) {
-  el.parentNode.removeChild(el);
+function removeFromPage(element) {
+  element.parentNode.removeChild(element);
+}
+
+/**
+ * ヘルパー: 配列から特定の要素を除去
+ *
+ * 引数が変更されるので要注意
+ */
+function drop(list, element) {
+  let index = list.indexOf(element);
+  if (index > -1) {
+    list.splice(index, 1);
+  }
 }

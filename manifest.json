@@ -10,7 +10,7 @@
     {
       "matches": ["https://teratail.com/*"],
       "run_at": "document_start",
-      "css": [],
+      "css": ["contentScript.css"],
       "js": ["contentScript.js"]
     }
   ],
