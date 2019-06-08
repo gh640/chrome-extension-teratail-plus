@@ -1,6 +1,7 @@
 #pageID_mypage .mute-button {
   display: block;
-  line-height: 2.4;
+  font-size: 1.2;
+  line-height: 2.8;
   border: 1px solid #ddd;
   border-radius: 3px;
   text-align: center;
@@ -9,7 +10,7 @@
 }
 
 #pageID_mypage .mute-button.muted {
-
+  background-color: #ddd;
 }
 
 #pageID_mypage .mute-button:hover {
