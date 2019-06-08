@@ -1,10 +1,10 @@
 /**
  * 共用の定数
  */
-const listSelector = '.j-feedContentsWrapper';
-const questionSelector = '.C-questionFeedItem';
-const usernameSelector = '.txtUserName';
-const key = 'mutedUsernames';
+const LIST_SELECTOR = '.j-feedContentsWrapper';
+const QUESTION_SELECTOR = '.C-questionFeedItem';
+const USERNAME_SELECTOR = '.txtUserName';
+const KEY = 'mutedUsernames';
 
 main();
 
@@ -32,8 +32,8 @@ function init() {
 function addObserver() {
 
   // DOM の変更を追いたいので MutationObserver を使う
-  const options = { attributes: false, childList: true, subtree: false };
-  let targetEls = document.querySelectorAll(listSelector);
+  let options = { attributes: false, childList: true, subtree: false };
+  let targetEls = document.querySelectorAll(LIST_SELECTOR);
 
   targetEls.forEach((target) => {
     var observer = new MutationObserver(applyFilterOnListLoad);
@@ -62,19 +62,19 @@ async function applyFilter() {
   // 質問リストを取得
   // ストレージからミュートユーザリストを取得
   // 該当するユーザ名の質問をリストから削除
-  const questionEls = document.querySelectorAll(questionSelector);
+  let questionEls = document.querySelectorAll(QUESTION_SELECTOR);
   if (questionEls.length < 1) {
     return;
   }
 
-  let mutedUsernames = await load(key);
+  let mutedUsernames = await load(KEY);
   if (!mutedUsernames) {
     return;
   }
 
   let questionElsToMute = [];
   for (let q of questionEls) {
-    let usernameContainer = q.querySelector(usernameSelector);
+    let usernameContainer = q.querySelector(USERNAME_SELECTOR);
     if (!usernameContainer) {
       continue;
     }
