@@ -32,7 +32,12 @@ async function main() {
       continue;
     }
 
-    let username = usernameContainer.innerText;
+    let linkEl = usernameContainer.getElementsByTagName('a');
+    if (!linkEl) {
+      continue;
+    }
+
+    let username = linkEl[0].getAttribute('title');
     if (mutedUsernames.includes(username)) {
       questionElsToMute.push(q);
     }
