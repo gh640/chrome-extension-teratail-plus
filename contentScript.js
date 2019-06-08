@@ -12,6 +12,16 @@ main();
  * メイン関数
  */
 async function main() {
+
+  // ページ読み込み時のちらつきを抑えるためあえて "run_at": "document_start" を選んで
+  // DOMContentLoaded を使用しています
+  window.addEventListener('DOMContentLoaded', init);
+}
+
+/**
+ * 初期化処理を実行
+ */
+function init() {
   addObserver();
   applyFilter();
 }
@@ -23,9 +33,9 @@ function addObserver() {
 
   // DOM の変更を追いたいので MutationObserver を使う
   const options = { attributes: false, childList: true, subtree: false };
-  let targets = document.querySelectorAll(listSelector);
+  let targetEls = document.querySelectorAll(listSelector);
 
-  targets.forEach(function (target) {
+  targetEls.forEach((target) => {
     var observer = new MutationObserver(applyFilterOnListLoad);
     observer.observe(target, options);
   });
