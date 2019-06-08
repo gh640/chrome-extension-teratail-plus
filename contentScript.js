@@ -158,7 +158,7 @@ async function applyFilter() {
     }
 
     let linkEl = usernameContainer.getElementsByTagName('a');
-    if (!linkEl) {
+    if (linkEl.length < 1) {
       continue;
     }
 
