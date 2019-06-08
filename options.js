@@ -29,7 +29,7 @@ function main() {
  */
 async function add(event) {
   let usernameEl = document.getElementById(INPUT_ID);
-  let username = usernameEl.value;
+  let username = usernameEl.value.trim();
   let mutedUsernames = await loadMutedUsernames();
 
   if (!mutedUsernames.includes(username)) {
