@@ -8,6 +8,7 @@ const UNMUTE_BUTTON_ID = 'unmute';
 const USERNAME_CLASS = 'username-row';
 const USERNAME_CHECK_CLASS = 'row-check';
 const USERNAME_LABEL_CLASS = 'row-label';
+const UNMUTE_CHECK_NAME = 'unmute';
 const KEY = 'mutedUsernames';
 
 main();
@@ -48,7 +49,7 @@ async function add(event) {
  * イベントリスナー: 選択されたユーザをアンミュートする
  */
 async function unmute(event) {
-  let checkboxEls = document.getElementsByName('unmute');
+  let checkboxEls = document.getElementsByName(UNMUTE_CHECK_NAME);
   let usernamesToUnmute = Array.from(checkboxEls)
     .filter(e => e.checked)
     .map(e => e.value);
@@ -78,7 +79,7 @@ async function refreshList() {
   mutedUsernames.forEach((username) => {
     let checkbox = document.createElement('input')
     checkbox.type = 'checkbox';
-    checkbox.name = 'unmute';
+    checkbox.name = UNMUTE_CHECK_NAME;
     checkbox.value = username;
     checkbox.id = username;
 
