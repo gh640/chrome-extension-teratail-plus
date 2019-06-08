@@ -1,8 +1,9 @@
 /**
  * 共用の定数
  */
-const usernameSelector = '.txtUserName';
+const listSelector = '.j-feedContentsWrapper';
 const questionSelector = '.C-questionFeedItem';
+const usernameSelector = '.txtUserName';
 const key = 'mutedUsernames';
 
 main();
@@ -11,6 +12,42 @@ main();
  * メイン関数
  */
 async function main() {
+  addObserver();
+  applyFilter();
+}
+
+/**
+ * 質問リストが切り替わったら絞り込みを適用する MutationObserver を追加
+ */
+function addObserver() {
+
+  // DOM の変更を追いたいので MutationObserver を使う
+  const options = { attributes: false, childList: true, subtree: false };
+  let targets = document.querySelectorAll(listSelector);
+
+  targets.forEach(function (target) {
+    var observer = new MutationObserver(applyFilterOnListLoad);
+    observer.observe(target, options);
+  });
+
+  /**
+   * （質問リストに）小要素が追加されたら applyFilter() を呼んで絞り込みを再適用する
+   */
+  function applyFilterOnListLoad(mutations, observer) {
+    for (let mutation of mutations) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        applyFilter();
+        break;
+      }
+    }
+  };
+
+}
+
+/**
+ * 質問リストに絞り込みを適用
+ */
+async function applyFilter() {
 
   // 質問リストを取得
   // ストレージからミュートユーザリストを取得
