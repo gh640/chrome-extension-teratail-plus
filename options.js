@@ -29,11 +29,7 @@ function main() {
  */
 async function add(event) {
   let username = document.getElementById(INPUT_ID).value;
-  let mutedUsernames = await load(KEY);
-
-  if (!mutedUsernames) {
-    mutedUsernames = [];
-  }
+  let mutedUsernames = await loadMutedUsernames();
 
   if (!mutedUsernames.includes(username)) {
     mutedUsernames.unshift(username);
@@ -57,7 +53,7 @@ async function unmute(event) {
     }
   }
 
-  let mutedUsernames = await load(KEY);
+  let mutedUsernames = await loadMutedUsernames();
   let newMutedUsernames = [];
   for (let username of mutedUsernames) {
     if (!usernamesToUnmute.includes(username)) {
@@ -74,11 +70,7 @@ async function unmute(event) {
  */
 async function refreshList() {
   let usernamesEl = document.getElementById(LIST_ID);
-  let mutedUsernames = await load(KEY);
-
-  if (!mutedUsernames) {
-    mutedUsernames = [];
-  }
+  let mutedUsernames = await loadMutedUsernames();
 
   // かんたんに実装するためいったんすべて削除して追加し直す
   while (usernamesEl.firstChild) {
@@ -108,6 +100,14 @@ async function refreshList() {
 
     usernamesEl.appendChild(container);
   });
+}
+
+/**
+ * ヘルパー: ストレージからミュート対象ユーザ一覧を取得する
+ */
+async function loadMutedUsernames() {
+  let usernames = await load(KEY);
+  return usernames ? usernames : [];
 }
 
 /**
