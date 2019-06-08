@@ -73,10 +73,10 @@ function addMuteSwitch() {
   async function refreshMuteButton() {
     if (await isMuted()) {
       link.classList.add('muted');
-      link.innerText = 'unmute';
+      link.innerText = 'ミュート解除';
     } else {
       link.classList.remove('muted');
-      link.innerText = 'mute';
+      link.innerText = 'ミュート';
     }
   }
 
