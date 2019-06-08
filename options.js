@@ -28,12 +28,14 @@ function main() {
  * イベントリスナー: ユーザをミュート対象に追加する
  */
 async function add(event) {
-  let username = document.getElementById(INPUT_ID).value;
+  let usernameEl = document.getElementById(INPUT_ID);
+  let username = usernameEl.value;
   let mutedUsernames = await loadMutedUsernames();
 
   if (!mutedUsernames.includes(username)) {
     mutedUsernames.unshift(username);
     await save(KEY, mutedUsernames);
+    usernameEl.value = '';
     refreshList();
   }
 
