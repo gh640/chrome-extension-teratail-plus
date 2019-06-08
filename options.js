@@ -30,13 +30,15 @@ function main() {
 async function add(event) {
   let usernameEl = document.getElementById(INPUT_ID);
   let username = usernameEl.value.trim();
-  let mutedUsernames = await loadMutedUsernames();
+  if (username) {
+    let mutedUsernames = await loadMutedUsernames();
 
-  if (!mutedUsernames.includes(username)) {
-    mutedUsernames.unshift(username);
-    await save(KEY, mutedUsernames);
-    usernameEl.value = '';
-    refreshList();
+    if (!mutedUsernames.includes(username)) {
+      mutedUsernames.unshift(username);
+      await save(KEY, mutedUsernames);
+      usernameEl.value = '';
+      refreshList();
+    }
   }
 
   event.preventDefault();
