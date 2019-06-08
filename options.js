@@ -60,6 +60,7 @@ async function unmute(event) {
 
   await save(KEY, newMutedUsernames);
   refreshList();
+  event.preventDefault();
 }
 
 /**
