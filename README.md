@@ -11,6 +11,17 @@ QA サイト teratail の使い勝手をあげる（はずの） Chrome エク�
 
 teratail の web API は使用していません。
 
+## 更新履歴
+
+### 0.11
+
+- アイコンを追加。
+- 内部のファイル構成を整理。
+
+### 0.1
+
+- リリース。
+
 ## イシュー
 
 問題を発見したら [イシュー一覧](https://github.com/gh640/chrome-extension-teratail-plus/issues) にイシューを追加する形でお知らせください。
