@@ -6,7 +6,19 @@ body {
   margin: 1em;
 }
 
-.form {
+.username-row {
+  display: flex;
+}
+
+.username-row .row-checkbox {
+  padding: 0.2em;
+}
+
+.username-row .row-label {
+  padding: 0.2em;
+}
+
+input[type="checkbox"] {
 }
 
 .usernames {
