@@ -49,21 +49,14 @@ async function add(event) {
  */
 async function unmute(event) {
   let checkboxEls = document.getElementsByName('unmute');
-  let usernamesToUnmute = [];
-
-  for (let checkboxEl of checkboxEls) {
-    if (checkboxEl.checked) {
-      usernamesToUnmute.push(checkboxEl.value);
-    }
-  }
+  let usernamesToUnmute = Array.from(checkboxEls)
+    .filter(e => e.checked)
+    .map(e => e.value);
 
   let mutedUsernames = await loadMutedUsernames();
-  let newMutedUsernames = [];
-  for (let username of mutedUsernames) {
-    if (!usernamesToUnmute.includes(username)) {
-      newMutedUsernames.push(username);
-    }
-  }
+  let newMutedUsernames = mutedUsernames.filter((un) => {
+    return !usernamesToUnmute.includes(un);
+  });
 
   await save(KEY, newMutedUsernames);
   refreshList();
