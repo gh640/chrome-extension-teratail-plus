@@ -1,0 +1,15 @@
+body {
+  line-height: 1.6;
+}
+
+.box {
+  margin: 1em;
+}
+
+.form {
+}
+
+.usernames {
+  max-height: 20em;
+  overflow: scroll;
+}
