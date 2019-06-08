@@ -16,8 +16,8 @@
     {
       "matches": ["https://teratail.com/*"],
       "run_at": "document_start",
-      "css": ["contentScript/contentScript.css"],
-      "js": ["contentScript/contentScript.js"]
+      "css": ["contentScript/styles.css"],
+      "js": ["contentScript/script.js"]
     }
   ],
   "options_ui": {
