@@ -77,28 +77,35 @@ async function refreshList() {
   }
 
   mutedUsernames.forEach((username) => {
-    let checkbox = document.createElement('input')
-    checkbox.type = 'checkbox';
-    checkbox.name = UNMUTE_CHECK_NAME;
-    checkbox.value = username;
-    checkbox.id = username;
-
-    let checkboxSpan = document.createElement('span');
-    checkboxSpan.appendChild(checkbox);
-    checkboxSpan.classList.add(USERNAME_CHECK_CLASS);
-
-    let label = document.createElement('label');
-    label.setAttribute('for', username);
-    label.innerText = username;
-    label.classList.add(USERNAME_LABEL_CLASS);
-
-    let container = document.createElement('div');
-    container.appendChild(checkboxSpan);
-    container.appendChild(label);
-    container.classList.add(USERNAME_CLASS);
-
-    usernamesEl.appendChild(container);
+    addRow(usernamesEl, username);
   });
+}
+
+/**
+ * ヘルパー: ユーザネームに対応する行を一覧を追加する
+ */
+function addRow(listEl, username) {
+  let checkbox = document.createElement('input')
+  checkbox.type = 'checkbox';
+  checkbox.name = UNMUTE_CHECK_NAME;
+  checkbox.value = username;
+  checkbox.id = username;
+
+  let checkboxSpan = document.createElement('span');
+  checkboxSpan.appendChild(checkbox);
+  checkboxSpan.classList.add(USERNAME_CHECK_CLASS);
+
+  let label = document.createElement('label');
+  label.setAttribute('for', username);
+  label.innerText = username;
+  label.classList.add(USERNAME_LABEL_CLASS);
+
+  let container = document.createElement('div');
+  container.appendChild(checkboxSpan);
+  container.appendChild(label);
+  container.classList.add(USERNAME_CLASS);
+
+  listEl.appendChild(container);
 }
 
 /**
