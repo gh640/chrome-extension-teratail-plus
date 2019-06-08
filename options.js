@@ -1,10 +1,10 @@
 /**
  * 共用の定数
  */
-const inputId = 'usernameInput';
-const listId = 'usernames';
-const buttonId = 'add';
-const key = 'mutedUsernames';
+const INPUT_ID = 'usernameInput';
+const LIST_ID = 'usernames';
+const BUTTON_ID = 'add';
+const KEY = 'mutedUsernames';
 
 main();
 
@@ -16,15 +16,15 @@ function main() {
   // ユーザ一覧表示をリフレッシュ
   // add ボタンにイベントリスナーを追加
   document.addEventListener('DOMContentLoaded', refreshUsernames);
-  document.getElementById(buttonId).addEventListener('click', addUsername);
+  document.getElementById(BUTTON_ID).addEventListener('click', addUsername);
 }
 
 /**
  * イベントリスナー: ユーザを追加する
  */
 async function addUsername(event) {
-  let username = document.getElementById(inputId).value;
-  let mutedUsernames = await load(key);
+  let username = document.getElementById(INPUT_ID).value;
+  let mutedUsernames = await load(KEY);
 
   if (!mutedUsernames) {
     mutedUsernames = [];
@@ -32,7 +32,7 @@ async function addUsername(event) {
 
   if (!mutedUsernames.includes(username)) {
     mutedUsernames.unshift(username);
-    await save(key, mutedUsernames);
+    await save(KEY, mutedUsernames);
     refreshUsernames();
   }
 
@@ -43,8 +43,8 @@ async function addUsername(event) {
  * イベントリスナー: ユーザ一覧表示をリフレッシュする
  */
 async function refreshUsernames() {
-  let usernamesEl = document.getElementById(listId);
-  let mutedUsernames = await load(key);
+  let usernamesEl = document.getElementById(LIST_ID);
+  let mutedUsernames = await load(KEY);
 
   if (!mutedUsernames) {
     mutedUsernames = [];
