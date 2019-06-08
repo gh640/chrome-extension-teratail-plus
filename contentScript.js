@@ -85,6 +85,9 @@ function addMuteSwitch() {
    */
   async function toggleMuteState(event) {
     let mutedUsernames = await load(KEY);
+    if (!mutedUsernames) {
+      mutedUsernames = [];
+    }
     if (await isMuted()) {
       drop(mutedUsernames, username);
     } else {
