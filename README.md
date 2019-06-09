@@ -11,6 +11,14 @@ QA サイト teratail の使い勝手をあげる（はずの） Chrome エク�
 
 teratail の web API は使用していません。
 
+## 使い方
+
+### インストール
+
+Chrome Web Store からインストールしてください。
+
+- [teratail plus - Chrome Web Store](https://chrome.google.com/webstore/detail/teratail-plus/apepgibomjmklpjdobgkmnnbdmbccepk)
+
 ## 更新履歴
 
 ### 0.11
